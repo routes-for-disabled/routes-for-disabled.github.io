@@ -16,18 +16,17 @@ function initMap() {
   });
   map.addListener('click', function(event) {
           addMarker(event.latLng, map);
-          console.log(event.latLng.lat());
-          console.log(event.latLng.lng());
   });
   $(document).on('click', '.deleteMarkers', function(){
     deleteMarkers();
   });
   $(document).on('click', '.calculateAndDisplayRoute', function(){
-    //calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, polyline);
+    if (!$(".calculateAndDisplayRoute").hasClass("disabled"))
+    {
+      calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, polyline);
+    }
   });
   directionsDisplay.setMap(map);
-
-  calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, polyline);
 
   polyline.setMap(map);
   polyline_arr.push(polyline)
@@ -41,12 +40,23 @@ function addMarker(location, map) {
     map: map
   });
   markers.push(marker);
+  checkAmountOfMarkers();
 }
 
 // Deletes all markers in the array by removing references to them.
 function deleteMarkers() {
   clearMarkers();
   markers = [];
+  console.log(markers.length);
+}
+
+function checkAmountOfMarkers() {
+  if(markers.length >=2){
+    $( ".calculateAndDisplayRoute" ).removeClass("disabled");
+  }
+  else {
+    $( ".calculateAndDisplayRoute:disabled" ).addClass("disabled");
+  }
 }
 
 // Removes the markers from the map, but keeps them in the array.
@@ -62,20 +72,21 @@ function setMapOnAll(map) {
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, polyline) {
-  var first = new google.maps.LatLng(50.464072, 30.516374); //waypoints
   var selectedMode = "WALKING";
 
-  console.log(selectedMode);
+  var origin = {lat: markers[0].position.lat(), lng: markers[0].position.lng()};
+  var destination = {lat: markers[markers.length-1].position.lat(), lng: markers[markers.length-1].position.lng()};
+  var waypoints = [];
+  for (var i = 1; i < markers.length-1; i++) {
+    var point = new google.maps.LatLng(markers[i].position.lat(), markers[i].position.lng());
+    var waypoint = {location: point, stopover: false};
+    waypoints.push(waypoint);
+  }
+
   directionsService.route({
-    origin: {lat: 50.462796, lng: 30.519026},
-    destination: {lat: 50.465255, lng: 30.516446},
-    waypoints: [{location: first, stopover: false}],
-    // origin: origin,
-    // destination: destination,
-    // waypoints: waypoints,
-    // Note that Javascript allows us to access the constant
-    // using square brackets and a string value as its
-    // "property."
+    origin: origin,
+    destination: destination,
+    waypoints: waypoints,
     travelMode: google.maps.TravelMode[selectedMode]
   }, function(response, status) {
     if (status == 'OK') {
