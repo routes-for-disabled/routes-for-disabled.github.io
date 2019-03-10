@@ -24,6 +24,7 @@ function initMap() {
     if (!$(".calculateAndDisplayRoute").hasClass("disabled"))
     {
       calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, polyline);
+      deleteMarkers();
     }
   });
   directionsDisplay.setMap(map);

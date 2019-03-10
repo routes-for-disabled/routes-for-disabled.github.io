@@ -9,16 +9,17 @@
     <script src="main.js"></script>
     <link rel="stylesheet" href="master.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
   <body>
     <div id="map"></div>
-    <div class="col align-middle">
-      <div class="row">
-        <div class="col-lg-6 my-1">
-          <button type="button" value="Delete Markers" class="btn btn-dark btn-lg btn-block deleteMarkers">Delete Markers</button>
+    <div class="container align-middle fixed-bottom">
+      <div class="row my-5">
+        <div class="col-6 text-center deleteMarkers">
+          <i class="fas fa-trash-alt" style="font-size: 60px;"></i>
         </div>
-        <div class="col-lg-6 my-1">
-          <button type="button" value="Calculate And Display Route" class="btn btn-dark btn-lg btn-block calculateAndDisplayRoute disabled">Display Route</button>
+        <div class="col-6 text-center calculateAndDisplayRoute disabled">
+          <i class="fas fa-route" style="font-size: 60px;"></i>
         </div>
       </div>
     </div>
