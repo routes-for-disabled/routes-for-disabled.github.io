@@ -6,7 +6,8 @@ function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
-    center: {lat: 50.449522, lng: 30.528850}
+    center: {lat: 50.449522, lng: 30.528850},
+    mapTypeId: 'hybrid',
   });
   var bounds = new google.maps.LatLngBounds();
   map.addListener('click', function(event) {
@@ -68,7 +69,7 @@ function setMapOnAll(map) {
 function calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, map) {
   var polyline = new google.maps.Polyline({
     path: [],
-    strokeColor: '#228B22',
+    strokeColor: 'indigo',
     strokeWeight: 5
   });
 
