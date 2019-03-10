@@ -1,4 +1,4 @@
-var polyline_arr = [];
+var polyline_arr = [[]];
 var markers = [];
 
 function initMap() {
@@ -6,14 +6,9 @@ function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
-    center: {lat: 37.77, lng: -122.447}
+    center: {lat: 50.449522, lng: 30.528850}
   });
   var bounds = new google.maps.LatLngBounds();
-  var polyline = new google.maps.Polyline({
-    path: [],
-    strokeColor: '#FF0000',
-    strokeWeight: 3
-  });
   map.addListener('click', function(event) {
           addMarker(event.latLng, map);
   });
@@ -23,15 +18,14 @@ function initMap() {
   $(document).on('click', '.calculateAndDisplayRoute', function(){
     if (!$(".calculateAndDisplayRoute").hasClass("disabled"))
     {
-      calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, polyline);
+      calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, map);
       deleteMarkers();
     }
   });
+
   directionsDisplay.setMap(map);
 
-  polyline.setMap(map);
-  polyline_arr.push(polyline)
-  map.fitBounds(bounds);
+  //map.fitBounds(bounds);
 }
 
 // Adds a marker to the map and push to the array.
@@ -48,7 +42,6 @@ function addMarker(location, map) {
 function deleteMarkers() {
   clearMarkers();
   markers = [];
-  console.log(markers.length);
 }
 
 function checkAmountOfMarkers() {
@@ -72,7 +65,15 @@ function setMapOnAll(map) {
   }
 }
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, polyline) {
+function calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, map) {
+  var polyline = new google.maps.Polyline({
+    path: [],
+    strokeColor: '#228B22',
+    strokeWeight: 5
+  });
+
+  var polyline_LatLng_arr = [];
+
   var selectedMode = "WALKING";
 
   var origin = {lat: markers[0].position.lat(), lng: markers[0].position.lng()};
@@ -101,6 +102,12 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, 
           for (k=0;k<nextSegment.length;k++) {
             polyline.getPath().push(nextSegment[k]);
             bounds.extend(nextSegment[k]);
+
+            //store LatLng
+            // var obj = {};
+            // obj['lat'] = nextSegment[k].lat();
+            // obj['lng'] = nextSegment[k].lng();
+            // polyline_LatLng_arr.push(JSON.stringify(obj));
           }
         }
       }
@@ -108,4 +115,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, 
       window.alert('Directions request failed due to ' + status);
     }
   });
+
+  //polyline_arr.push(polyline_LatLng_arr);
+  //localStorage.setItem("polyline_arr", polyline_arr);
+  polyline.setMap(map);
 }
