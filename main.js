@@ -7,7 +7,7 @@ function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
     center: {lat: 50.449522, lng: 30.528850},
-    mapTypeId: 'hybrid',
+    mapTypeId: 'roadmap',
   });
   var bounds = new google.maps.LatLngBounds();
   map.addListener('click', function(event) {
@@ -19,7 +19,9 @@ function initMap() {
   $(document).on('click', '.calculateAndDisplayRoute', function(){
     if (!$(".calculateAndDisplayRoute").hasClass("disabled"))
     {
-      calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, map);
+      if(markers.length >=2){
+        calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, map);
+      }
       deleteMarkers();
     }
   });
@@ -69,7 +71,7 @@ function setMapOnAll(map) {
 function calculateAndDisplayRoute(directionsService, directionsDisplay, bounds, map) {
   var polyline = new google.maps.Polyline({
     path: [],
-    strokeColor: 'indigo',
+    strokeColor: '#4285F4',
     strokeWeight: 5
   });
 
