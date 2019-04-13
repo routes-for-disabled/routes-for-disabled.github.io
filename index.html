@@ -8,18 +8,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="main.js"></script>
     <script src="addRoute.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="master.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
   <body>
-    <h1 class="text-center my-5">Routes for disabled</h1>
-
-    <div class="container buttons mt-5">
-      <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Block level button</button>
-      <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Block level button</button>
-      <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Block level button</button>
+    <div class="row align-items-center mx-5" style="height: 100%;">
+      <div class="col-12 mt-3">
+        <h1 class="text-center">Routes for disabled</h1>
+      </div>
+      <div class="col-md-5">
+        <img src="https://routes-for-disabled.github.io/img/maps_scale_2x.png" class="responsive" alt="...">
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-block addRoutes">Add routes</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-block addMarkers">Add markers</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg btn-block">Test button</button>
+      </div>
     </div>
+
 
 
     <!-- <div id="map"></div>
@@ -36,9 +45,8 @@
 
 
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAl5uffklpEe9XBJTBNXkIp87KNfxhgn9Y&libraries=geometry&callback=initMap"
-        async defer></script>
+
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAl5uffklpEe9XBJTBNXkIp87KNfxhgn9Y&libraries=geometry&callback=initMap"
+        async defer></script> -->
   </body>
 </html>
