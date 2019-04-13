@@ -42,10 +42,19 @@ function initMap() {
 
 // Adds a marker to the map and push to the array.
 function addMarker(location, map) {
-  var marker = new google.maps.Marker({
-    position: location,
-    map: map
-  });
+  if (state == 3) {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      icon: 'https://routes-for-disabled.github.io/img/003-disabled-2'
+    });
+  }
+  else {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map
+    });
+  }
   markers.push(marker);
   checkAmountOfMarkers();
 }
