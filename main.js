@@ -6,7 +6,7 @@ function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
-    center: {lat: 50.449522, lng: 30.528850},
+    center: {lat: 50.469725, lng: 30.517896},
     mapTypeId: 'roadmap',
   });
 
