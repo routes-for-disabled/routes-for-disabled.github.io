@@ -49,7 +49,7 @@ function addMarker(location, map) {
       icon: 'https://routes-for-disabled.github.io/img/12.png'
     });
   }
-  else {
+  else if(state != 1){
     var marker = new google.maps.Marker({
       position: location,
       map: map
