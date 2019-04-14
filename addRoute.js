@@ -58,21 +58,21 @@ function addCustomMarker(location, map) {
       var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: 'https://routes-for-disabled.github.io/img/13.png'
+        icon: 'https://routes-for-disabled.github.io/img/2.png'
       });
       break;
     case 'wc':
       var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: 'https://routes-for-disabled.github.io/img/12.png'
+        icon: 'https://routes-for-disabled.github.io/img/1.png'
       });
       break;
     case 'parking':
       var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: 'https://routes-for-disabled.github.io/img/14.png'
+        icon: 'https://routes-for-disabled.github.io/img/3.png'
       });
       break;
     default:
