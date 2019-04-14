@@ -43,18 +43,26 @@ function initMap() {
 // Adds a marker to the map and push to the array.
 function addMarker(location, map) {
   if (state == 3) {
-    var marker = new google.maps.Marker({
-      position: location,
-      map: map,
-      icon: 'https://routes-for-disabled.github.io/img/12.png'
-    });
+    addCustomMarker(location, map);
   }
   else if(state != 1){
-    var marker = new google.maps.Marker({
-      position: location,
-      map: map
-    });
+    addRouteMarker(location, map);
   }
+}
+
+function addCustomMarker(location, map) {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map,
+    icon: 'https://routes-for-disabled.github.io/img/12.png'
+  });
+}
+
+function addRouteMarker(location, map) {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
   markers.push(marker);
   checkAmountOfMarkers();
 }
