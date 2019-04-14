@@ -51,11 +51,33 @@ function addMarker(location, map) {
 }
 
 function addCustomMarker(location, map) {
-  var marker = new google.maps.Marker({
-    position: location,
-    map: map,
-    icon: 'https://routes-for-disabled.github.io/img/12.png'
-  });
+  let selectedMarker = $( "#inputGroupSelect01" ).val();
+
+  switch (selectedMarker) {
+    case 'lift':
+      var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: 'https://routes-for-disabled.github.io/img/13.png'
+      });
+      break;
+    case 'wc':
+      var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: 'https://routes-for-disabled.github.io/img/12.png'
+      });
+      break;
+    case 'parking':
+      var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        icon: 'https://routes-for-disabled.github.io/img/14.png'
+      });
+      break;
+    default:
+
+  }
 }
 
 function addRouteMarker(location, map) {

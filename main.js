@@ -45,5 +45,5 @@ function showAddRoutes(){
 
 function showAddMarkers(){
   $( ".controls" ).empty();
-  $( ".controls" ).append( '            <div class="container align-middle fixed-bottom"><div class="row my-4"><div class="col-2 mr-2"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-8 text-center"><div class="input-group mb-3"><div class="input-group-prepend"><label class="input-group-text" for="inputGroupSelect01">Markers</label></div><select class="custom-select" id="inputGroupSelect01"><option value="1" selected>Lift</option><option value="2">WC</option><option value="3">Parking</option></select></div></div></div></div>   ' );
+  $( ".controls" ).append( '            <div class="container align-middle fixed-bottom"><div class="row my-4"><div class="col-2 mr-2"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-8 text-center"><div class="input-group mb-3"><div class="input-group-prepend"><label class="input-group-text" for="inputGroupSelect01">Markers</label></div><select class="custom-select" id="inputGroupSelect01"><option value="lift" selected>Lift</option><option value="wc">WC</option><option value="parking">Parking</option></select></div></div></div></div>   ' );
 }
