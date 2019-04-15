@@ -1,4 +1,5 @@
 var markers = [];
+var customMarkers = [];
 var markersLatLngArr = [[]];
 
 function initMap() {
@@ -8,6 +9,16 @@ function initMap() {
     zoom: 13,
     center: {lat: 50.469725, lng: 30.517896},
     mapTypeId: 'roadmap',
+  });
+
+  //hide customMarkers
+  google.maps.event.addListener(map, 'zoom_changed', function() {
+    console.log('zoom');
+    var zoom = map.getZoom();
+    // iterate over markers and call setVisible
+    for (i = 0; i < customMarkers.length; i++) {
+        customMarkers[i].setVisible(zoom > 13);
+    }
   });
 
   if (navigator.geolocation) {
@@ -60,6 +71,7 @@ function addCustomMarker(location, map) {
         map: map,
         icon: 'https://routes-for-disabled.github.io/img/2.png'
       });
+      customMarkers.push(marker);
       break;
     case 'wc':
       var marker = new google.maps.Marker({
@@ -67,6 +79,7 @@ function addCustomMarker(location, map) {
         map: map,
         icon: 'https://routes-for-disabled.github.io/img/1.png'
       });
+      customMarkers.push(marker);
       break;
     case 'parking':
       var marker = new google.maps.Marker({
@@ -74,6 +87,7 @@ function addCustomMarker(location, map) {
         map: map,
         icon: 'https://routes-for-disabled.github.io/img/3.png'
       });
+      customMarkers.push(marker);
       break;
   }
 }
