@@ -28,6 +28,10 @@ $(document).on('click', '.addMarkers', function(){
   showAddMarkers();
 });
 
+$(document).on('click', '.saveMarker', function(){
+  submitCustomMarker();
+});
+
 function showMap(){
   $( ".controls" ).empty();
   $( ".controls" ).append( '     <div class="container align-middle fixed-bottom py-3"><div class="row my-4"><div class="col"><button type="button" class="btn btn-dark main">Back</button></div></div></div>    ' );

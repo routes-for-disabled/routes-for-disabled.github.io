@@ -1,6 +1,7 @@
 var markers = [];
 var customMarkers = [];
 var markersLatLngArr = [[]];
+var cMarker;
 
 function initMap() {
   var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -10,6 +11,8 @@ function initMap() {
     center: {lat: 50.469725, lng: 30.517896},
     mapTypeId: 'roadmap',
   });
+
+  getMarkersFromDB(map);
 
   //hide customMarkers
   google.maps.event.addListener(map, 'zoom_changed', function() {
@@ -51,43 +54,59 @@ function initMap() {
   directionsDisplay.setMap(map);
 }
 
+function getMarkersFromDB(map){
+  db.collection("Markers")
+    .find({}, {limit: 1000})
+    .toArray()
+    .then(docs => {
+      const html = docs;
+      for (var i = 0; i < html.length; i++) {
+        addCustomMarker({lat: html[i].lat, lng: html[i].lng}, map, html[i].type);
+        customMarkers.push(cMarker);
+      }
+      setMapCustomOnAll(map);
+    });
+}
+
 // Adds a marker to the map and push to the array.
 function addMarker(location, map) {
   if (state == 3) {
-    addCustomMarker(location, map);
+    let selectedMarker = $( "#inputGroupSelect01" ).val();
+    addCustomMarker(location, map, selectedMarker);
   }
   else if(state != 1){
     addRouteMarker(location, map);
   }
 }
 
-function addCustomMarker(location, map) {
-  let selectedMarker = $( "#inputGroupSelect01" ).val();
-
+function addCustomMarker(location, map, selectedMarker) {
   switch (selectedMarker) {
     case 'lift':
       var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: 'https://routes-for-disabled.github.io/img/2.png'
+        icon: 'https://routes-for-disabled.github.io/img/2.png',
+        type: selectedMarker
       });
-      customMarkers.push(marker);
+      cMarker = marker;
       break;
     case 'wc':
       var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: 'https://routes-for-disabled.github.io/img/1.png'
+        icon: 'https://routes-for-disabled.github.io/img/1.png',
+        type: selectedMarker
       });
-      customMarkers.push(marker);
+      cMarker = marker;
       break;
     case 'parking':
       var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: 'https://routes-for-disabled.github.io/img/3.png'
+        icon: 'https://routes-for-disabled.github.io/img/3.png',
+        type: selectedMarker
       });
-      customMarkers.push(marker);
+      cMarker = marker;
       break;
   }
 }
@@ -95,10 +114,32 @@ function addCustomMarker(location, map) {
 function addRouteMarker(location, map) {
   var marker = new google.maps.Marker({
     position: location,
-    map: map
+    map: map,
+    type: 'default'
   });
   markers.push(marker);
   checkAmountOfMarkers();
+}
+
+function submitCustomMarker(){
+  if (cMarker) {
+    db.collection("Markers")
+    .insertOne({ lat : cMarker.position.lat(), lng: cMarker.position.lng(), type: cMarker.type})
+    .then(pushCMarker);
+  }
+}
+
+function pushCMarker(){
+  customMarkers.push(cMarker);
+  cMarker = 0;
+  alert( "Marker added" );
+  db.collection("Markers")
+    .find({}, {limit: 1000})
+    .toArray()
+    .then(docs => {
+      const html = docs;
+      console.log(html);
+    });
 }
 
 // Deletes all markers in the array by removing references to them.
@@ -125,6 +166,12 @@ function clearMarkers() {
 function setMapOnAll(map) {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
+  }
+}
+
+function setMapCustomOnAll(map) {
+  for (var i = 0; i < customMarkers.length; i++) {
+    customMarkers[i].setMap(map);
   }
 }
 

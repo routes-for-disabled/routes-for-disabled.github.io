@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="utf-8">
     <title>Routes for disabled</title>
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.3.1/stitch.js"></script>
+    <script>
+      // Initialize the App Client
+      const client = stitch.Stitch.initializeDefaultAppClient("routesfordisabled-vqujr");
+      // Get a MongoDB Service Client
+      const mongodb = client.getServiceClient(
+        stitch.RemoteMongoClient.factory,
+        "mongodb-atlas"
+      );
+      // Get a reference to the blog database
+      const db = mongodb.db("RoutesForDisabled");
+    </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="main.js"></script>
