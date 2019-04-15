@@ -64,6 +64,7 @@ function getMarkersFromDB(map){
         addCustomMarker({lat: html[i].lat, lng: html[i].lng}, map, html[i].type);
         customMarkers.push(cMarker);
       }
+      cMarker = 0;
       setMapCustomOnAll(map);
     });
 }
