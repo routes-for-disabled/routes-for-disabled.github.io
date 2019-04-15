@@ -9,6 +9,7 @@
     <script>
       // Initialize the App Client
       const client = stitch.Stitch.initializeDefaultAppClient("routesfordisabled-vqujr");
+
       // Get a MongoDB Service Client
       const mongodb = client.getServiceClient(
         stitch.RemoteMongoClient.factory,
@@ -16,6 +17,17 @@
       );
       // Get a reference to the blog database
       const db = mongodb.db("RoutesForDisabled");
+
+      client.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user =>
+        db.collection('Markers').updateOne({owner_id: client.auth.user.id}, {$set:{number:42}}, {upsert:true})
+      ).then(() =>
+        db.collection('Markers').find({owner_id: client.auth.user.id}, { limit: 100}).asArray()
+      ).then(docs => {
+          console.log("Found docs", docs)
+          console.log("[MongoDB Stitch] Connected to Stitch")
+      }).catch(err => {
+        console.error(err)
+      });
     </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
