@@ -75,8 +75,6 @@ function addCustomMarker(location, map) {
         icon: 'https://routes-for-disabled.github.io/img/3.png'
       });
       break;
-    default:
-
   }
 }
 
