@@ -32,14 +32,20 @@ $(document).on('click', '.saveMarker', function(){
   submitCustomMarker();
 });
 
+$(document).on('click', '.saveRoute', function(){
+  submitRoute();
+});
+
 function showMap(){
   $( ".controls" ).empty();
-  $( ".controls" ).append( '     <div class="container align-middle fixed-bottom py-3"><div class="row my-4"><div class="col"><button type="button" class="btn btn-dark main">Back</button></div></div></div>    ' );
+  $( ".controls" ).append( '<div class="container align-middle fixed-bottom py-3"><div class="row my-4"><div class="col"><button type="button" class="btn btn-dark main">Back</button></div></div></div>' );
 }
 
 function showMain(){
-  cMarker.setMap(null);
-  cMarker = 0;
+  if (cMarker) {
+    cMarker.setMap(null);
+    cMarker = 0;
+  }
   $( ".controls" ).empty();
   $( ".controls" ).append( '<div class="row align-items-center mx-5" style="height: 100%;"><div class="col-12 mt-3"><h1 class="text-center">Routes for disabled</h1></div><div class="col-md-5"><img src="https://routes-for-disabled.github.io/img/maps_scale_2x.png" class="responsive" alt="..."></div><div class="col"><button type="button" class="btn btn-outline-secondary btn-lg btn-block showMap">Show map</button><button type="button" class="btn btn-outline-secondary btn-lg btn-block addRoutes">Add routes</button><button type="button" class="btn btn-outline-secondary btn-lg btn-block addMarkers">Add markers</button></div></div>' );
 }

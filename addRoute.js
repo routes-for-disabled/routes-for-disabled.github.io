@@ -1,6 +1,5 @@
 var markers = [];
 var customMarkers = [];
-var markersLatLngArr = [[]];
 var cMarker;
 
 function initMap() {
@@ -11,8 +10,6 @@ function initMap() {
     center: {lat: 50.469725, lng: 30.517896},
     mapTypeId: 'roadmap',
   });
-
-  getMarkersFromDB(map);
 
   //hide customMarkers
   google.maps.event.addListener(map, 'zoom_changed', function() {
@@ -46,12 +43,13 @@ function initMap() {
     {
       if(markers.length >=2){
         calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map);
-        storeRoute();
       }
-      deleteMarkers();
     }
   });
   directionsDisplay.setMap(map);
+
+  getMarkersFromDB(map);
+  getRoutesFromDB(directionsDisplay, directionsService, bounds, map);
 }
 
 function getMarkersFromDB(map){
@@ -66,6 +64,29 @@ function getMarkersFromDB(map){
       }
       cMarker = 0;
       setMapCustomOnAll(map);
+    });
+}
+
+function getRoutesFromDB(directionsDisplay, directionsService, bounds, map){
+  //var nMarkers = [];
+  db.collection("route")
+    .find({}, {limit: 1000})
+    .toArray()
+    .then(docs => {
+      const html = docs;
+      for (let i = 0; i < html.length; i++) {
+        let parsedArr = JSON.parse(html[i].markersArr);
+        for (let j = 0; j < parsedArr.length; j++) {
+          var tempMarker = new google.maps.Marker({
+            position: {lat: parsedArr[j].lat, lng: parsedArr[j].lng},
+            map: map,
+            type: 'default'
+          });
+          markers.push(tempMarker);
+        }
+        calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map);
+        deleteMarkers();
+      }
     });
 }
 
@@ -130,6 +151,23 @@ function submitCustomMarker(){
   }
 }
 
+function submitRoute(){
+  console.log('saveroute');
+  let markersLatLngArr = [];
+  for (var i = 0; i < markers.length; i++) {
+    markersLatLngArr.push({lat:markers[i].position.lat(), lng:markers[i].position.lng()});
+  }
+
+  console.log(markersLatLngArr);
+
+  if (markersLatLngArr.length > 0) {
+    db.collection("route")
+    .insertOne({markersArr: JSON.stringify(markersLatLngArr)})
+    .then();
+  }
+  deleteMarkers();
+}
+
 function pushCMarker(){
   customMarkers.push(cMarker);
   cMarker = 0;
@@ -174,16 +212,6 @@ function setMapCustomOnAll(map) {
   for (var i = 0; i < customMarkers.length; i++) {
     customMarkers[i].setMap(map);
   }
-}
-
-function storeRoute() {
-  let markersLatLng = [];
-  for (var i = 0; i < markers.length; i++) {
-    markersLatLngArr.push({lat:markers[i].position.lat(), lng:markers[i].position.lng()});
-  }
-  markersLatLngArr.push(markersLatLng);
-  localStorage.setItem('markersLatLngArr', JSON.stringify(markersLatLngArr));
-  console.log(localStorage.getItem('markersLatLngArr'));
 }
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map) {
