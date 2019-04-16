@@ -71,11 +71,11 @@ function getMarkersFromDB(map){
 
 // Adds a marker to the map and push to the array.
 function addMarker(location, map) {
-  if (state == 3) {
+  if (state == 3 && !cMarker) {
     let selectedMarker = $( "#inputGroupSelect01" ).val();
     addCustomMarker(location, map, selectedMarker);
   }
-  else if(state != 1){
+  else if(state != 1 && !cMarker){
     addRouteMarker(location, map);
   }
 }
