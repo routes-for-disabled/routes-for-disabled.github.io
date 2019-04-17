@@ -1,6 +1,7 @@
 var markers = [];
 var customMarkers = [];
 var cMarker;
+var polylineArr = [];
 
 function initMap() {
   var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -67,6 +68,29 @@ function getMarkersFromDB(map){
     });
 }
 
+// function getRoutesFromDB(directionsDisplay, directionsService, bounds, map){
+//   //var nMarkers = [];
+//   db.collection("route")
+//     .find({}, {limit: 1000})
+//     .toArray()
+//     .then(docs => {
+//       const html = docs;
+//       for (let i = 0; i < html.length; i++) {
+//         let parsedArr = JSON.parse(html[i].markersArr);
+//         for (let j = 0; j < parsedArr.length; j++) {
+//           var tempMarker = new google.maps.Marker({
+//             position: {lat: parsedArr[j].lat, lng: parsedArr[j].lng},
+//             map: map,
+//             type: 'default'
+//           });
+//           markers.push(tempMarker);
+//         }
+//         calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map);
+//         deleteMarkers();
+//       }
+//     });
+// }
+
 function getRoutesFromDB(directionsDisplay, directionsService, bounds, map){
   //var nMarkers = [];
   db.collection("route")
@@ -76,16 +100,13 @@ function getRoutesFromDB(directionsDisplay, directionsService, bounds, map){
       const html = docs;
       for (let i = 0; i < html.length; i++) {
         let parsedArr = JSON.parse(html[i].markersArr);
-        for (let j = 0; j < parsedArr.length; j++) {
-          var tempMarker = new google.maps.Marker({
-            position: {lat: parsedArr[j].lat, lng: parsedArr[j].lng},
-            map: map,
-            type: 'default'
-          });
-          markers.push(tempMarker);
-        }
-        calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map);
-        deleteMarkers();
+        var polyline = new google.maps.Polyline({
+          path: parsedArr,
+          strokeColor: '#4285F4',
+          strokeWeight: 5,
+          clickable: false
+        });
+        polyline.setMap(map);
       }
     });
 }
@@ -151,21 +172,31 @@ function submitCustomMarker(){
   }
 }
 
+// function submitRoute(){
+//   console.log('saveroute');
+//   let markersLatLngArr = [];
+//   for (var i = 0; i < markers.length; i++) {
+//     markersLatLngArr.push({lat:markers[i].position.lat(), lng:markers[i].position.lng()});
+//   }
+//
+//   console.log(markersLatLngArr);
+//
+//   if (markersLatLngArr.length > 0) {
+//     db.collection("route")
+//     .insertOne({markersArr: JSON.stringify(markersLatLngArr)})
+//     .then();
+//   }
+//   deleteMarkers();
+// }
+
 function submitRoute(){
-  console.log('saveroute');
-  let markersLatLngArr = [];
-  for (var i = 0; i < markers.length; i++) {
-    markersLatLngArr.push({lat:markers[i].position.lat(), lng:markers[i].position.lng()});
-  }
-
-  console.log(markersLatLngArr);
-
-  if (markersLatLngArr.length > 0) {
+  if (polylineArr.length > 0) {
     db.collection("route")
-    .insertOne({markersArr: JSON.stringify(markersLatLngArr)})
+    .insertOne({markersArr: JSON.stringify(polylineArr)})
     .then();
   }
   deleteMarkers();
+  polylineArr = [];
 }
 
 function pushCMarker(){
@@ -250,6 +281,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, 
           var nextSegment = steps[j].path;
           for (k=0;k<nextSegment.length;k++) {
             polyline.getPath().push(nextSegment[k]);
+            polylineArr.push({lat:nextSegment[k].lat(), lng:nextSegment[k].lng()}); //to store
             bounds.extend(nextSegment[k]);
           }
         }
