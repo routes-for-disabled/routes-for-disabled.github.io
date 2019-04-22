@@ -127,10 +127,10 @@ function addMarker(location, map) {
 function addCustomMarker(location, map, selectedMarker) {
   switch (selectedMarker) {
     case 'lift':
-    let icon = {
-        url: 'https://routes-for-disabled.github.io/img/2.png', // url
-        scaledSize: new google.maps.Size(50, 50), // scaled size
-    };
+      let icon = {
+          url: 'https://routes-for-disabled.github.io/img/2.png', // url
+          scaledSize: new google.maps.Size(50, 50), // scaled size
+      };
       var marker = new google.maps.Marker({
         position: location,
         map: map,
@@ -140,7 +140,7 @@ function addCustomMarker(location, map, selectedMarker) {
       cMarker = marker;
       break;
     case 'wc':
-      let icon = {
+      icon = {
           url: 'https://routes-for-disabled.github.io/img/1.png', // url
           scaledSize: new google.maps.Size(50, 50), // scaled size
       };
@@ -154,10 +154,10 @@ function addCustomMarker(location, map, selectedMarker) {
       cMarker = marker;
       break;
     case 'parking':
-    let icon = {
-        url: 'https://routes-for-disabled.github.io/img/3.png', // url
-        scaledSize: new google.maps.Size(50, 50), // scaled size
-    };
+      icon = {
+          url: 'https://routes-for-disabled.github.io/img/3.png', // url
+          scaledSize: new google.maps.Size(50, 50), // scaled size
+      };
       var marker = new google.maps.Marker({
         position: location,
         map: map,
