@@ -41,57 +41,57 @@ function initMap() {
     deleteMarkers();
     deleteRoute();
   });
+
   $(document).on('click', '.calculateAndDisplayRoute', function(){
     if (!$(".calculateAndDisplayRoute").hasClass("disabled"))
     {
-      if(markers.length >=2){
+      if(markers.length >=2 && !currentRoute){
         calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map);
       }
     }
   });
+
+  $(document).on('change', '.selectCustom', function(){
+    console.log($("#inputGroupSelect02" ).val());
+    refreshMarkers(map, $( "#inputGroupSelect02" ).val());
+  });
+
   directionsDisplay.setMap(map);
 
-  getMarkersFromDB(map);
+  getMarkersFromDB(map, 'all');
   getRoutesFromDB(directionsDisplay, directionsService, bounds, map);
 }
 
-function getMarkersFromDB(map){
+function refreshMarkers(map, selectedMarker){
+  setMapCustomOnAll(null);
+  customMarkers = [];
+  getMarkersFromDB(map, selectedMarker);
+}
+
+function getMarkersFromDB(map, selectedMarker){
   db.collection("Markers")
     .find({}, {limit: 1000})
     .toArray()
     .then(docs => {
       const html = docs;
-      for (var i = 0; i < html.length; i++) {
-        addCustomMarker({lat: html[i].lat, lng: html[i].lng}, map, html[i].type);
-        customMarkers.push(cMarker);
+      if (selectedMarker == 'all') {
+        for (var i = 0; i < html.length; i++) {
+          addCustomMarker({lat: html[i].lat, lng: html[i].lng}, map, html[i].type);
+          customMarkers.push(cMarker);
+        }
+      } else
+      {
+        for (var i = 0; i < html.length; i++) {
+          if (html[i].type.toString() === selectedMarker.toString()) {
+            addCustomMarker({lat: html[i].lat, lng: html[i].lng}, map, html[i].type);
+            customMarkers.push(cMarker);
+          }
+        }
       }
       cMarker = 0;
       setMapCustomOnAll(map);
     });
 }
-
-// function getRoutesFromDB(directionsDisplay, directionsService, bounds, map){
-//   //var nMarkers = [];
-//   db.collection("route")
-//     .find({}, {limit: 1000})
-//     .toArray()
-//     .then(docs => {
-//       const html = docs;
-//       for (let i = 0; i < html.length; i++) {
-//         let parsedArr = JSON.parse(html[i].markersArr);
-//         for (let j = 0; j < parsedArr.length; j++) {
-//           var tempMarker = new google.maps.Marker({
-//             position: {lat: parsedArr[j].lat, lng: parsedArr[j].lng},
-//             map: map,
-//             type: 'default'
-//           });
-//           markers.push(tempMarker);
-//         }
-//         calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map);
-//         deleteMarkers();
-//       }
-//     });
-// }
 
 function getRoutesFromDB(directionsDisplay, directionsService, bounds, map){
   //var nMarkers = [];
@@ -132,42 +132,27 @@ function addCustomMarker(location, map, selectedMarker) {
           url: 'https://routes-for-disabled.github.io/img/2.png', // url
           scaledSize: new google.maps.Size(50, 50), // scaled size
       };
-      var marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        icon: icon,
-        type: selectedMarker
-      });
-      cMarker = marker;
       break;
     case 'wc':
       icon = {
           url: 'https://routes-for-disabled.github.io/img/1.png', // url
           scaledSize: new google.maps.Size(50, 50), // scaled size
       };
-      var marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        icon: icon,
-        type: selectedMarker,
-        scaledSize: new google.maps.Size(50, 50)
-      });
-      cMarker = marker;
       break;
     case 'parking':
       icon = {
           url: 'https://routes-for-disabled.github.io/img/3.png', // url
           scaledSize: new google.maps.Size(50, 50), // scaled size
       };
-      var marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        icon: icon,
-        type: selectedMarker
-      });
-      cMarker = marker;
       break;
   }
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map,
+    icon: icon,
+    type: selectedMarker
+  });
+  cMarker = marker;
 }
 
 function addRouteMarker(location, map) {
@@ -188,32 +173,24 @@ function submitCustomMarker(){
   }
 }
 
-// function submitRoute(){
-//   console.log('saveroute');
-//   let markersLatLngArr = [];
-//   for (var i = 0; i < markers.length; i++) {
-//     markersLatLngArr.push({lat:markers[i].position.lat(), lng:markers[i].position.lng()});
-//   }
-//
-//   console.log(markersLatLngArr);
-//
-//   if (markersLatLngArr.length > 0) {
-//     db.collection("route")
-//     .insertOne({markersArr: JSON.stringify(markersLatLngArr)})
-//     .then();
-//   }
-//   deleteMarkers();
-// }
-
 function submitRoute(){
-  if (polylineArr.length > 0) {
+  if ((polylineArr.length > 0) && currentRoute) {
     db.collection("route")
     .insertOne({markersArr: JSON.stringify(polylineArr)})
     .then();
+
+    alert( "Route added" );
+    deleteMarkers();
+    polylineArr = [];
+    currentRoute = 0;
   }
-  deleteMarkers();
-  polylineArr = [];
-  currentRoute = 0;
+}
+
+function deleteCustomMarker(){
+  if (cMarker) {
+    cMarker.setMap(null);
+    cMarker = 0;
+  }
 }
 
 function pushCMarker(){
@@ -232,6 +209,7 @@ function pushCMarker(){
 // Deletes all markers in the array by removing references to them.
 function deleteMarkers() {
   clearMarkers();
+  polylineArr = [];
   markers = [];
 }
 
@@ -263,10 +241,10 @@ function setMapCustomOnAll(map) {
 }
 
 function deleteRoute(){
-  console.log(currentRoute);
   if (currentRoute) {
     currentRoute.setMap(null);
   }
+  currentRoute = 0;
 }
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, map) {
