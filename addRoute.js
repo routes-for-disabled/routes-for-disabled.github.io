@@ -136,10 +136,14 @@ function addCustomMarker(location, map, selectedMarker) {
       cMarker = marker;
       break;
     case 'wc':
+      let icon = {
+          url: 'https://routes-for-disabled.github.io/img/1.png', // url
+          scaledSize: new google.maps.Size(50, 50), // scaled size
+      };
       var marker = new google.maps.Marker({
         position: location,
         map: map,
-        icon: 'https://routes-for-disabled.github.io/img/1.png',
+        icon: icon,
         type: selectedMarker,
         scaledSize: new google.maps.Size(50, 50)
       });
