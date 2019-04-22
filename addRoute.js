@@ -125,9 +125,10 @@ function addMarker(location, map) {
 }
 
 function addCustomMarker(location, map, selectedMarker) {
+  let icon = 0;
   switch (selectedMarker) {
     case 'lift':
-      let icon = {
+      icon = {
           url: 'https://routes-for-disabled.github.io/img/2.png', // url
           scaledSize: new google.maps.Size(50, 50), // scaled size
       };
