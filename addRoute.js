@@ -2,6 +2,7 @@ var markers = [];
 var customMarkers = [];
 var cMarker;
 var polylineArr = [];
+var currentRoute = 0;
 
 function initMap() {
   var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -38,6 +39,7 @@ function initMap() {
   });
   $(document).on('click', '.deleteMarkers', function(){
     deleteMarkers();
+    deleteRoute();
   });
   $(document).on('click', '.calculateAndDisplayRoute', function(){
     if (!$(".calculateAndDisplayRoute").hasClass("disabled"))
@@ -197,6 +199,7 @@ function submitRoute(){
   }
   deleteMarkers();
   polylineArr = [];
+  currentRoute = 0;
 }
 
 function pushCMarker(){
@@ -242,6 +245,13 @@ function setMapOnAll(map) {
 function setMapCustomOnAll(map) {
   for (var i = 0; i < customMarkers.length; i++) {
     customMarkers[i].setMap(map);
+  }
+}
+
+function deleteRoute(){
+  console.log(currentRoute);
+  if (currentRoute) {
+    currentRoute.setMap(null);
   }
 }
 
@@ -292,4 +302,5 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService, bounds, 
   });
 
   polyline.setMap(map);
+  currentRoute = polyline;
 }
