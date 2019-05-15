@@ -1,6 +1,7 @@
 var state = 0;
 
 $(document).on('click', '.main', function(){
+  $('[data-toggle="popover"]').popover('hide');
   state = 0;
   $("#map").addClass("d-none");
   $(".controls").addClass("fullscreen");
@@ -19,6 +20,7 @@ $(document).on('click', '.addRoutes', function(){
   $("#map").removeClass("d-none");
   $(".controls").removeClass("fullscreen");
   showAddRoutes();
+  showTips();
 });
 
 $(document).on('click', '.addMarkers', function(){
@@ -26,6 +28,7 @@ $(document).on('click', '.addMarkers', function(){
   $("#map").removeClass("d-none");
   $(".controls").removeClass("fullscreen");
   showAddMarkers();
+  showTips();
 });
 
 $(document).on('click', '.saveMarker', function(){
@@ -40,10 +43,18 @@ $(document).on('click', '.saveRoute', function(){
   submitRoute();
 });
 
+function showTips(){
+  $('[data-toggle="popover"]').popover('toggle');
+  console.log('popover');
+
+  setTimeout(function() { $('[data-toggle="popover"]').popover('hide'); }, 5000);
+}
+
+
 function showMap(){
   $( ".controls" ).empty();
   $( "nav" ).empty();
-  $( ".controls" ).append( '<div class="container align-middle fixed-bottom"><div class="row my-4"><div class="col-2 mr-2"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-8 text-center"><div class="input-group mb-3"><div class="input-group-prepend"><label class="input-group-text" for="inputGroupSelect02">Show markers:</label></div><select class="custom-select selectCustom" id="inputGroupSelect02"><option value="all" selected>All</option><option value="lift">Lift</option><option value="wc">WC</option><option value="parking">Parking</option></select></div></div></div></div>' );
+  $( ".controls" ).append( '<div class="container align-middle fixed-bottom"><div class="row my-4"><div class="col-2 mr-2"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-8 text-center"><div class="input-group mb-3"><div class="input-group-prepend"><label class="input-group-text" for="inputGroupSelect02">Show markers:</label></div><select class="custom-select selectCustom" id="inputGroupSelect02"><option value="all" selected>All</option><option value="lift">Lift</option><option value="wc">WC</option><option value="parking">Parking</option></select></div></div></div></div>');
 }
 
 function showMain(){
@@ -62,11 +73,11 @@ function showMain(){
 function showAddRoutes(){
   $( ".controls" ).empty();
   $( "nav" ).empty();
-  $( ".controls" ).append( '<div class="col fixed-top mt-5 mx-0 pr-2"><div class="row mb-2 mt-3"><div class="col"></div><div class="col-auto"><button type="button" class="btn btn-success px-5 saveRoute">Save</button></div></div></div>          <div class="container align-middle fixed-bottom"><div class="row my-4 align-items-center"><div class="col"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-auto bg-light rounded-pill py-3"><div class="row"><div class="col text-center deleteMarkers px-4"><i class="fas fa-trash-alt" style="font-size: 40px;"></i></div><div class="col text-center calculateAndDisplayRoute disabled px-4"><i class="fas fa-route" style="font-size: 40px;"></i></div></div></div><div class="col"></div></div></div>    ' );
+  $( ".controls" ).append( '<div class="col fixed-top mt-5 mx-0 pr-2"><div class="row mb-2 mt-3"><div class="col"></div><div class="col-auto"><button type="button" class="btn btn-success px-5 saveRoute" data-toggle="popover" data-trigger="focus" data-content="Do not forget to save before adding next route or leaving page" data-placement="bottom">Save</button></div></div></div>          <div class="container align-middle fixed-bottom"><div class="row my-4 align-items-center"><div class="col"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-auto bg-light rounded-pill py-3"><div class="row"><div class="col text-center deleteMarkers px-4" data-toggle="popover" data-trigger="focus" data-content="Click here to delete accidentally added routes or markers" data-placement="top"><i class="fas fa-trash-alt" style="font-size: 40px;"></i></div><div class="col text-center calculateAndDisplayRoute disabled px-4" data-toggle="popover" data-trigger="focus" data-content="Click here to calculate and display route" data-placement="top"><i class="fas fa-route" style="font-size: 40px;"></i></div></div></div><div class="col"></div></div></div>    ' );
 }
 
 function showAddMarkers(){
   $( ".controls" ).empty();
   $( "nav" ).empty();
-  $( ".controls" ).append( '<div class="col fixed-top mt-5 mx-0 pr-2"><div class="row mb-2 mt-3"><div class="col"></div><div class="col-auto"><button type="button" class="btn btn-success px-5 saveMarker">Save</button></div></div></div><div class="container align-middle fixed-bottom"><div class="row mb-4"><div class="col-2 mr-2"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-2 mr-3"><div class="col text-center px-4 deleteCustomMarker"><i class="fas fa-trash-alt" style="font-size: 35px;"></i></div></div><div class="col-6 text-center pr-4"><div class="input-group mb-3"><div class="input-group-prepend"></div><select class="custom-select" id="inputGroupSelect01"><option value="lift" selected>Lift</option><option value="wc">WC</option><option value="parking">Parking</option></select></div></div></div></div>' );
+  $( ".controls" ).append( '<div class="col fixed-top mt-5 mx-0 pr-2"><div class="row mb-2 mt-3"><div class="col"></div><div class="col-auto"><button type="button" class="btn btn-success px-5 saveMarker" data-toggle="popover" data-trigger="focus" data-content="Do not forget to save before adding next marker or leaving page" data-placement="bottom">Save</button></div></div></div><div class="container align-middle fixed-bottom"><div class="row mb-4"><div class="col-2 mr-2"><button type="button" class="btn btn-dark main">Back</button></div><div class="col-2 mr-3"><div class="col text-center px-4 deleteCustomMarker" data-toggle="popover" data-trigger="focus" data-content="Click here to delete accidentally added markers" data-placement="top"><i class="fas fa-trash-alt" style="font-size: 35px;"></i></div></div><div class="col-6 text-center pr-4"><div class="input-group mb-3"><div class="input-group-prepend"></div><select class="custom-select" id="inputGroupSelect01"><option value="lift" selected>Lift</option><option value="wc">WC</option><option value="parking">Parking</option></select></div></div></div></div>' );
 }
