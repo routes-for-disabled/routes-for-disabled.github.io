@@ -7,17 +7,6 @@
     <title>Routes for disabled</title>
     <script src="https://s3.amazonaws.com/stitch-sdks/js/bundles/4.3.1/stitch.js"></script>
     <script>
-      // // Initialize the App Client
-      // const client = stitch.Stitch.initializeDefaultAppClient("routesfordisabled-vqujr");
-      // client.auth.loginWithCredential(new stitch.AnonymousCredential());
-      // // Get a MongoDB Service Client
-      // const mongodb = client.getServiceClient(
-      //   stitch.RemoteMongoClient.factory,
-      //   "mongodb-atlas"
-      // );
-      // // Get a reference to the blog database
-      // const db = mongodb.db("RoutesForDisabled");
-
       const stitchClient = stitch.Stitch.initializeDefaultAppClient('routesfordisabled-vqujr');
       //stitchClient.auth.loginWithCredential(new stitch.AnonymousCredential());
       stitchClient.auth.loginWithCredential(new stitch.AnonymousCredential()).then(user => {
@@ -30,9 +19,6 @@
         );
 
         const db = mongoClient.db("RoutesForDisabled");
-
-
-
     </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -52,8 +38,8 @@
     </script>
 
     <nav class="navbar navbar-light fixed-top d-flex justify-content-end">
-      <button type="button" class="btn btn-success mr-1 btn-sm">Sign in</button>
-      <button type="button" class="btn btn-warning ml-1 text-white btn-sm">Sign up</button>
+      <button type="button" class="btn btn-success mr-1 btn-sm" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="We are working on it">Sign in</button>
+      <button type="button" class="btn btn-warning ml-1 text-white btn-sm" data-toggle="popover" data-trigger="focus" data-content="We are working on it" data-placement="bottom">Sign up</button>
     </nav>
 
     <div class="controls fullscreen">

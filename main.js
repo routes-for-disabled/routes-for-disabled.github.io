@@ -1,5 +1,9 @@
 var state = 0;
 
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
 $(document).on('click', '.main', function(){
   $('[data-toggle="popover"]').popover('hide');
   state = 0;
