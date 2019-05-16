@@ -58,9 +58,21 @@ function initMap() {
 
   directionsDisplay.setMap(map);
 
-  getMarkersFromDB(map, 'all');
-  getRoutesFromDB(directionsDisplay, directionsService, bounds, map);
+  function getDataFromDB(){
+    // if (!stitchClient.auth.isLoggedIn) {
+    //   location.reload();
+    // }
+    getMarkersFromDB(map, 'all');
+    getRoutesFromDB(directionsDisplay, directionsService, bounds, map);
+  }
+
+  $(document).one('click', function(){
+    getDataFromDB(map, 'all', directionsDisplay, directionsService, bounds);
+  });
+
 }
+
+
 
 function refreshMarkers(map, selectedMarker){
   setMapCustomOnAll(null);
@@ -129,20 +141,20 @@ function addCustomMarker(location, map, selectedMarker) {
   switch (selectedMarker) {
     case 'lift':
       icon = {
-          url: 'https://routes-for-disabled.github.io/img/2.png', // url
-          scaledSize: new google.maps.Size(50, 50), // scaled size
+          url: 'https://routes-for-disabled.github.io/img/2.png',
+          scaledSize: new google.maps.Size(50, 50),
       };
       break;
     case 'wc':
       icon = {
-          url: 'https://routes-for-disabled.github.io/img/1.png', // url
+          url: 'https://routes-for-disabled.github.io/img/1.png',
           scaledSize: new google.maps.Size(50, 50), // scaled size
       };
       break;
     case 'parking':
       icon = {
-          url: 'https://routes-for-disabled.github.io/img/3.png', // url
-          scaledSize: new google.maps.Size(50, 50), // scaled size
+          url: 'https://routes-for-disabled.github.io/img/3.png',
+          scaledSize: new google.maps.Size(50, 50),
       };
       break;
   }
